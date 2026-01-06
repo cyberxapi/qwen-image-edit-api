@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: qwen-image-edit-api
+    runtime: python
+    pythonVersion: 3.11
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        scope: run
+        value: your_anthropic_api_key_here
+      - key: PYTHON_VERSION
+        value: "3.11"
+    healthCheckPath: /api/health
+    port: 5000
+
+environments:
+  - name: production
+    services:
+      - key: app
+        type: web
